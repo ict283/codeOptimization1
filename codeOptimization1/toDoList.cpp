@@ -42,14 +42,11 @@ void ToDoList::store(string fileStreamData)
         string item;
         string taskDay="";
         int taskNum=1;
-        vector<Task> * taskList = new vector<Task>();
 
         while (getline(stringStream,item,','))
         {
                 if(item[0]=='#')
                 {
-                        taskDatabase.insert(*taskList); //store current vector
-                        taskList = new vector<Task>(); //create a new vector
                         taskDay= item.substr(1,item.length());
                         taskNum =1;
                 }
@@ -59,36 +56,11 @@ void ToDoList::store(string fileStreamData)
                         task.key = taskDay;
                         task.num = taskNum++;
                         task.taskDescription = item;
-                        taskList->push_back(task);
                 }
-        }
-
-        if(stringStream.eof())
-        {
-                taskDatabase.insert(*taskList); //store last vector
         }
 }
 
 void ToDoList::display()
 {
-        taskDatabase.print();
-}
-
-ostream& operator << (ostream &os, const vector<Task> taskList)
-{
-        string currentDay="";
-
-        for(Task t : taskList)
-        {
-                if(currentDay!=t.key)
-                {
-                        cout<<endl;
-                        currentDay=t.key;
-                        cout<<"=="<<currentDay<<"=="<<endl;
-                }
-
-                cout<<t.num<<"-"<<t.taskDescription<<endl;
-        }
-
-        return os;
+        
 }
