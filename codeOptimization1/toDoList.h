@@ -35,13 +35,13 @@ string read(const string fileName);
 void store(string fileStreamData);
 
 void display();
-    
+
 void display(string date, string taskNo);
 
 private:
 
 map<string,Task> taskDatabase; //Key-Value store
-    
+
 };
 
 #endif /* toDoList_h */

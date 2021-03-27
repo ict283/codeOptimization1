@@ -15,15 +15,15 @@ ToDoList::~ToDoList()
 void ToDoList::run()
 {
         store(read("to_do_data.txt"));
-        
+
         string dateInput; //eg."5.4.21"
         string taskNoInput; //eg."3"
-        
+
         cout<<"Enter date: ";
         cin>>dateInput;
         cout<<"Enter task no: ";
         cin>>taskNoInput;
-         
+
         display(dateInput,taskNoInput);
 }
 
@@ -71,19 +71,19 @@ void ToDoList::store(string fileStreamData)
 
 void ToDoList::display()
 {
-    map<string, Task> :: iterator itr;
-    
-    for(itr=taskDatabase.begin(); itr!=taskDatabase.end(); ++itr)
-    {
-        cout<<setw(10)<<setfill(' ')<<left;
-        cout<<(itr->first)<<" - "<<(itr->second).taskDescription<<endl; //first = key , second = value
-    }
+        map<string, Task> :: iterator itr;
+
+        for(itr=taskDatabase.begin(); itr!=taskDatabase.end(); ++itr)
+        {
+                cout<<setw(10)<<setfill(' ')<<left;
+                cout<<(itr->first)<<" - "<<(itr->second).taskDescription<<endl; //first = key , second = value
+        }
 }
 
 void ToDoList::display(string date, string taskNo)
 {
-    string taskId = date+"."+taskNo;
-    map<string,Task>:: const_iterator itr = taskDatabase.find(taskId);
-    cout<<setw(10)<<setfill(' ')<<left;
-    cout<<(itr->first)<<" - "<<(itr->second).taskDescription<<endl;
+        string taskId = date+"."+taskNo;
+        map<string,Task>:: const_iterator itr = taskDatabase.find(taskId);
+        cout<<setw(10)<<setfill(' ')<<left;
+        cout<<(itr->first)<<" - "<<(itr->second).taskDescription<<endl;
 }
