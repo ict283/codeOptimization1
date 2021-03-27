@@ -15,8 +15,16 @@ ToDoList::~ToDoList()
 void ToDoList::run()
 {
         store(read("to_do_data.txt"));
-        display();
 
+        string dateInput; //eg."5.4.21"
+        string taskNoInput; //eg."3"
+
+        cout<<"Enter date: ";
+        cin>>dateInput;
+        cout<<"Enter task no: ";
+        cin>>taskNoInput;
+
+        display(dateInput,taskNoInput);
 }
 
 string ToDoList::read(const string fileName)
@@ -39,56 +47,43 @@ void ToDoList::store(string fileStreamData)
 {
         istringstream stringStream {fileStreamData}; //stringify
 
-        string item;
-        string taskDay="";
+        string item="";
+        string taskId="";
+        string taskDate="";
         int taskNum=1;
-        vector<Task> * taskList = new vector<Task>();
 
         while (getline(stringStream,item,','))
         {
                 if(item[0]=='#')
                 {
-                        taskDatabase.insert(*taskList); //store current vector
-                        taskList = new vector<Task>(); //create a new vector
-                        taskDay= item.substr(1,item.length());
+                        taskDate= item.substr(1,item.length());
                         taskNum =1;
                 }
                 else
                 {
                         Task task;
-                        task.key = taskDay;
-                        task.num = taskNum++;
+                        task.taskId = taskDate+"."+to_string(taskNum++);
                         task.taskDescription = item;
-                        taskList->push_back(task);
+                        taskDatabase.insert(pair<string, Task>(task.taskId, task));
                 }
-        }
-
-        if(stringStream.eof())
-        {
-                taskDatabase.insert(*taskList); //store last vector
         }
 }
 
 void ToDoList::display()
 {
-        taskDatabase.print();
+        map<string, Task> :: iterator itr;
+
+        for(itr=taskDatabase.begin(); itr!=taskDatabase.end(); ++itr)
+        {
+                cout<<setw(10)<<setfill(' ')<<left;
+                cout<<(itr->first)<<" - "<<(itr->second).taskDescription<<endl; //first = key , second = value
+        }
 }
 
-ostream& operator << (ostream &os, const vector<Task> taskList)
+void ToDoList::display(string date, string taskNo)
 {
-        string currentDay="";
-
-        for(Task t : taskList)
-        {
-                if(currentDay!=t.key)
-                {
-                        cout<<endl;
-                        currentDay=t.key;
-                        cout<<"=="<<currentDay<<"=="<<endl;
-                }
-
-                cout<<t.num<<"-"<<t.taskDescription<<endl;
-        }
-
-        return os;
+        string taskId = date+"."+taskNo;
+        map<string,Task>:: const_iterator itr = taskDatabase.find(taskId);
+        cout<<setw(10)<<setfill(' ')<<left;
+        cout<<(itr->first)<<" - "<<(itr->second).taskDescription<<endl;
 }
