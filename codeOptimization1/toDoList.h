@@ -8,17 +8,13 @@
 #include <fstream>
 #include <sstream>
 
-#include <vector>
-#include "list.h"
+#include <map>
 
 using namespace std;
 
 struct Task
 {
-        string key;
-
-        int num;
-
+        string taskId;
         string taskDescription;
 };
 
@@ -39,15 +35,13 @@ string read(const string fileName);
 void store(string fileStreamData);
 
 void display();
-
+    
+void display(string date, string taskNo);
 
 private:
 
-Linkedlist<vector<Task> > taskDatabase; //Linked list of vectors
+map<string,Task> taskDatabase; //Key-Value store
     
 };
-
-ostream& operator << (ostream &os, const vector<Task> taskList);
-
 
 #endif /* toDoList_h */
